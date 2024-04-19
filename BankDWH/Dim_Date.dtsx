@@ -1,0 +1,72 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="4/18/2024 4:35:54 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="DESKTOP-9QPE1RK"
+  DTS:CreatorName="DESKTOP-9QPE1RK\hp"
+  DTS:DTSID="{0779BDAB-76C9-4053-8A1A-CFBC2FB7FE19}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="16.0.5467.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Dim_Date"
+  DTS:PackageType="5"
+  DTS:VersionBuild="1"
+  DTS:VersionGUID="{C9A1687C-C9AA-433E-8D59-F51867296812}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[LocalHost.BankDWH]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{457F3FBB-F746-4C8A-9333-5DD819133F06}"
+      DTS:ObjectName="LocalHost.BankDWH">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=.;Initial Catalog=BankDWH;Provider=SQLNCLI11.1;Integrated Security=SSPI;Application Name=SSIS-Dim_Date-{457F3FBB-F746-4C8A-9333-5DD819133F06}LocalHost.BankDWH;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\SQL to create Dim_Date"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{6AD12A6C-BEC2-4BB5-8986-2A6F2A51C8D2}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SQL to create Dim_Date"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{457F3FBB-F746-4C8A-9333-5DD819133F06}"
+          SQLTask:SqlStatementSource="CREATE TABLE DateDimension (&#xA;    DateKey INT PRIMARY KEY,&#xA;    [Date] DATE,&#xA;    [Year] INT,&#xA;    [Week] INT,&#xA;    [Day] VARCHAR(20),&#xA;    [Month] VARCHAR(20)&#xA;);&#xA;&#xA;WITH Numbers AS (&#xA;    SELECT ROW_NUMBER() OVER (ORDER BY (SELECT NULL)) AS Num&#xA;    FROM sys.columns&#xA;),&#xA;DateRange AS (&#xA;    SELECT CAST('2020-06-21' AS DATETIME) AS StartDate,&#xA;           CAST('2020-12-31' AS DATETIME) AS EndDate&#xA;),&#xA;DateAttributes AS (&#xA;    SELECT DATEADD(DAY, Num - 1, StartDate) AS [Date],&#xA;           YEAR(DATEADD(DAY, Num - 1, StartDate)) AS [Year],&#xA;           DATEPART(WEEK, DATEADD(DAY, Num - 1, StartDate)) AS [Week],&#xA;           DATENAME(WEEKDAY, DATEADD(DAY, Num - 1, StartDate)) AS [Day],&#xA;           DATENAME(MONTH, DATEADD(DAY, Num - 1, StartDate)) AS [Month]&#xA;    FROM Numbers&#xA;    JOIN DateRange ON Num &lt;= DATEDIFF(DAY, StartDate, EndDate) + 1&#xA;)&#xA;INSERT INTO DateDimension ([DateKey], [Date], [Year], [Week], [Day], [Month])&#xA;SELECT CONVERT(INT, FORMAT([Date], 'yyyyMMdd')),&#xA;       [Date],&#xA;       [Year],&#xA;       [Week],&#xA;       [Day],&#xA;       [Month]&#xA;FROM DateAttributes;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="191.2,41.6"
+          Id="Package\SQL to create Dim_Date"
+          TopLeft="232.166657659743,88.7000006612142" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

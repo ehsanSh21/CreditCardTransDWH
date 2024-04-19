@@ -1,0 +1,1587 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="4/18/2024 5:43:33 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="DESKTOP-9QPE1RK"
+  DTS:CreatorName="DESKTOP-9QPE1RK\hp"
+  DTS:DTSID="{2A0F2227-30AF-400A-A4EC-02EEAE477D1F}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="16.0.5467.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Fact_Transaction"
+  DTS:PackageType="5"
+  DTS:VersionBuild="1"
+  DTS:VersionGUID="{389F1FAE-FD4D-4981-92AC-4583F6B92726}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[LocalHost.Bank]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{E642DF40-EC48-4B19-9A04-D0387D99DE92}"
+      DTS:ObjectName="LocalHost.Bank">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=.;Initial Catalog=Bank;Provider=SQLNCLI11.1;Integrated Security=SSPI;Application Name=SSIS-Fact_Transaction-{E642DF40-EC48-4B19-9A04-D0387D99DE92}LocalHost.Bank;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[LocalHost.BankDWH]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{9A792808-E90A-4856-A4A0-8C1F446741E2}"
+      DTS:ObjectName="LocalHost.BankDWH">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=.;Initial Catalog=BankDWH;Provider=SQLNCLI11.1;Integrated Security=SSPI;Application Name=SSIS-Fact_Transaction-{9A792808-E90A-4856-A4A0-8C1F446741E2}LocalHost.BankDWH;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Delete From Fact"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{2E751F99-D595-4F30-8619-5E46517744F3}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Delete From Fact"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9A792808-E90A-4856-A4A0-8C1F446741E2}"
+          SQLTask:SqlStatementSource="Delete From Fact_Transactions;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Loading to Fact"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{DEFE08F7-4785-44C4-A6E4-52FC1EFF99FE}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Loading to Fact"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Loading to Fact\Date_id From DateDimension"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="Date_id From DateDimension"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[DateDimension]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Loading to Fact\Date_id From DateDimension.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[LocalHost.BankDWH]"
+                  connectionManagerRefId="Package.ConnectionManagers[LocalHost.BankDWH]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Output].Columns[DateKey]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Output].ExternalColumns[DateKey]"
+                      lineageId="Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Output].Columns[DateKey]"
+                      name="DateKey"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Output].Columns[Date]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Output].ExternalColumns[Date]"
+                      lineageId="Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Output].Columns[Date]"
+                      name="Date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Output].Columns[Year]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Output].ExternalColumns[Year]"
+                      lineageId="Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Output].Columns[Year]"
+                      name="Year"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Output].Columns[Week]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Output].ExternalColumns[Week]"
+                      lineageId="Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Output].Columns[Week]"
+                      name="Week"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Output].Columns[Day]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Output].ExternalColumns[Day]"
+                      length="20"
+                      lineageId="Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Output].Columns[Day]"
+                      name="Day"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Output].Columns[Month]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Output].ExternalColumns[Month]"
+                      length="20"
+                      lineageId="Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Output].Columns[Month]"
+                      name="Month"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Output].ExternalColumns[DateKey]"
+                      dataType="i4"
+                      name="DateKey" />
+                    <externalMetadataColumn
+                      refId="Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Output].ExternalColumns[Date]"
+                      dataType="dbDate"
+                      name="Date" />
+                    <externalMetadataColumn
+                      refId="Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Output].ExternalColumns[Year]"
+                      dataType="i4"
+                      name="Year" />
+                    <externalMetadataColumn
+                      refId="Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Output].ExternalColumns[Week]"
+                      dataType="i4"
+                      name="Week" />
+                    <externalMetadataColumn
+                      refId="Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Output].ExternalColumns[Day]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="Day" />
+                    <externalMetadataColumn
+                      refId="Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Output].ExternalColumns[Month]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="Month" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Error Output].Columns[DateKey]"
+                      dataType="i4"
+                      lineageId="Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Error Output].Columns[DateKey]"
+                      name="DateKey" />
+                    <outputColumn
+                      refId="Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Error Output].Columns[Date]"
+                      dataType="dbDate"
+                      lineageId="Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Error Output].Columns[Date]"
+                      name="Date" />
+                    <outputColumn
+                      refId="Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Error Output].Columns[Year]"
+                      dataType="i4"
+                      lineageId="Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Error Output].Columns[Year]"
+                      name="Year" />
+                    <outputColumn
+                      refId="Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Error Output].Columns[Week]"
+                      dataType="i4"
+                      lineageId="Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Error Output].Columns[Week]"
+                      name="Week" />
+                    <outputColumn
+                      refId="Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Error Output].Columns[Day]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      lineageId="Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Error Output].Columns[Day]"
+                      name="Day" />
+                    <outputColumn
+                      refId="Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Error Output].Columns[Month]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      lineageId="Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Error Output].Columns[Month]"
+                      name="Month" />
+                    <outputColumn
+                      refId="Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Loading to Fact\Facts without Date_id"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="Facts without Date_id"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select a.Cust_id,a.Merchant_id,b.ADDR_id,a.Amount,a.is_fraud,CONVERT(DATE,a.Transaction_TimeStamp) as Date
+from Transactions a
+join Customer b
+on a.Cust_id=b.CUST_ID
+order by CONVERT(DATE,a.Transaction_TimeStamp)
+;</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Loading to Fact\Facts without Date_id.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[LocalHost.Bank]"
+                  connectionManagerRefId="Package.ConnectionManagers[LocalHost.Bank]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Output].Columns[Cust_id]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Output].ExternalColumns[Cust_id]"
+                      lineageId="Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Output].Columns[Cust_id]"
+                      name="Cust_id"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Output].Columns[Merchant_id]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Output].ExternalColumns[Merchant_id]"
+                      lineageId="Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Output].Columns[Merchant_id]"
+                      name="Merchant_id"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Output].Columns[ADDR_id]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Output].ExternalColumns[ADDR_id]"
+                      lineageId="Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Output].Columns[ADDR_id]"
+                      name="ADDR_id"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Output].Columns[Amount]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Output].ExternalColumns[Amount]"
+                      lineageId="Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Output].Columns[Amount]"
+                      name="Amount"
+                      precision="10"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Output].Columns[is_fraud]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Output].ExternalColumns[is_fraud]"
+                      lineageId="Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Output].Columns[is_fraud]"
+                      name="is_fraud"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Output].Columns[Date]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Output].ExternalColumns[Date]"
+                      lineageId="Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Output].Columns[Date]"
+                      name="Date"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Output].ExternalColumns[Cust_id]"
+                      dataType="i4"
+                      name="Cust_id" />
+                    <externalMetadataColumn
+                      refId="Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Output].ExternalColumns[Merchant_id]"
+                      dataType="i4"
+                      name="Merchant_id" />
+                    <externalMetadataColumn
+                      refId="Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Output].ExternalColumns[ADDR_id]"
+                      dataType="i4"
+                      name="ADDR_id" />
+                    <externalMetadataColumn
+                      refId="Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Output].ExternalColumns[Amount]"
+                      dataType="numeric"
+                      name="Amount"
+                      precision="10"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Output].ExternalColumns[is_fraud]"
+                      dataType="bool"
+                      name="is_fraud" />
+                    <externalMetadataColumn
+                      refId="Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Output].ExternalColumns[Date]"
+                      dataType="dbDate"
+                      name="Date" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Error Output].Columns[Cust_id]"
+                      dataType="i4"
+                      lineageId="Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Error Output].Columns[Cust_id]"
+                      name="Cust_id" />
+                    <outputColumn
+                      refId="Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Error Output].Columns[Merchant_id]"
+                      dataType="i4"
+                      lineageId="Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Error Output].Columns[Merchant_id]"
+                      name="Merchant_id" />
+                    <outputColumn
+                      refId="Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Error Output].Columns[ADDR_id]"
+                      dataType="i4"
+                      lineageId="Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Error Output].Columns[ADDR_id]"
+                      name="ADDR_id" />
+                    <outputColumn
+                      refId="Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Error Output].Columns[Amount]"
+                      dataType="numeric"
+                      lineageId="Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Error Output].Columns[Amount]"
+                      name="Amount"
+                      precision="10"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Error Output].Columns[is_fraud]"
+                      dataType="bool"
+                      lineageId="Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Error Output].Columns[is_fraud]"
+                      name="is_fraud" />
+                    <outputColumn
+                      refId="Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Error Output].Columns[Date]"
+                      dataType="dbDate"
+                      lineageId="Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Error Output].Columns[Date]"
+                      name="Date" />
+                    <outputColumn
+                      refId="Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Loading to Fact\Load to Fact"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Load to Fact"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[Fact_Transactions]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Loading to Fact\Load to Fact.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[LocalHost.BankDWH]"
+                  connectionManagerRefId="Package.ConnectionManagers[LocalHost.BankDWH]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Loading to Fact\Load to Fact.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Loading to Fact\Load to Fact.Inputs[OLE DB Destination Input].Columns[Cust_id]"
+                      cachedDataType="i4"
+                      cachedName="Cust_id"
+                      externalMetadataColumnId="Package\Loading to Fact\Load to Fact.Inputs[OLE DB Destination Input].ExternalColumns[Cust_id]"
+                      lineageId="Package\Loading to Fact\Merge Join.Outputs[Merge Join Output].Columns[Cust_id]" />
+                    <inputColumn
+                      refId="Package\Loading to Fact\Load to Fact.Inputs[OLE DB Destination Input].Columns[Merchant_id]"
+                      cachedDataType="i4"
+                      cachedName="Merchant_id"
+                      externalMetadataColumnId="Package\Loading to Fact\Load to Fact.Inputs[OLE DB Destination Input].ExternalColumns[Merchant_id]"
+                      lineageId="Package\Loading to Fact\Merge Join.Outputs[Merge Join Output].Columns[Merchant_id]" />
+                    <inputColumn
+                      refId="Package\Loading to Fact\Load to Fact.Inputs[OLE DB Destination Input].Columns[ADDR_id]"
+                      cachedDataType="i4"
+                      cachedName="ADDR_id"
+                      externalMetadataColumnId="Package\Loading to Fact\Load to Fact.Inputs[OLE DB Destination Input].ExternalColumns[ADDR_id]"
+                      lineageId="Package\Loading to Fact\Merge Join.Outputs[Merge Join Output].Columns[ADDR_id]" />
+                    <inputColumn
+                      refId="Package\Loading to Fact\Load to Fact.Inputs[OLE DB Destination Input].Columns[Amount]"
+                      cachedDataType="numeric"
+                      cachedName="Amount"
+                      cachedPrecision="10"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Loading to Fact\Load to Fact.Inputs[OLE DB Destination Input].ExternalColumns[Amount]"
+                      lineageId="Package\Loading to Fact\Merge Join.Outputs[Merge Join Output].Columns[Amount]" />
+                    <inputColumn
+                      refId="Package\Loading to Fact\Load to Fact.Inputs[OLE DB Destination Input].Columns[is_fraud]"
+                      cachedDataType="bool"
+                      cachedName="is_fraud"
+                      externalMetadataColumnId="Package\Loading to Fact\Load to Fact.Inputs[OLE DB Destination Input].ExternalColumns[Is_Fraud]"
+                      lineageId="Package\Loading to Fact\Merge Join.Outputs[Merge Join Output].Columns[is_fraud]" />
+                    <inputColumn
+                      refId="Package\Loading to Fact\Load to Fact.Inputs[OLE DB Destination Input].Columns[Date_id]"
+                      cachedDataType="i4"
+                      cachedName="Date_id"
+                      externalMetadataColumnId="Package\Loading to Fact\Load to Fact.Inputs[OLE DB Destination Input].ExternalColumns[Date_id]"
+                      lineageId="Package\Loading to Fact\Merge Join.Outputs[Merge Join Output].Columns[Date_id]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Loading to Fact\Load to Fact.Inputs[OLE DB Destination Input].ExternalColumns[Cust_id]"
+                      dataType="i4"
+                      name="Cust_id" />
+                    <externalMetadataColumn
+                      refId="Package\Loading to Fact\Load to Fact.Inputs[OLE DB Destination Input].ExternalColumns[Merchant_id]"
+                      dataType="i4"
+                      name="Merchant_id" />
+                    <externalMetadataColumn
+                      refId="Package\Loading to Fact\Load to Fact.Inputs[OLE DB Destination Input].ExternalColumns[ADDR_id]"
+                      dataType="i4"
+                      name="ADDR_id" />
+                    <externalMetadataColumn
+                      refId="Package\Loading to Fact\Load to Fact.Inputs[OLE DB Destination Input].ExternalColumns[Date_id]"
+                      dataType="i4"
+                      name="Date_id" />
+                    <externalMetadataColumn
+                      refId="Package\Loading to Fact\Load to Fact.Inputs[OLE DB Destination Input].ExternalColumns[Amount]"
+                      dataType="numeric"
+                      name="Amount"
+                      precision="10"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Loading to Fact\Load to Fact.Inputs[OLE DB Destination Input].ExternalColumns[Is_Fraud]"
+                      dataType="bool"
+                      name="Is_Fraud" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Loading to Fact\Load to Fact.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Loading to Fact\Load to Fact.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Loading to Fact\Load to Fact.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Loading to Fact\Load to Fact.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Loading to Fact\Load to Fact.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Loading to Fact\Load to Fact.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Loading to Fact\Merge Join"
+              componentClassID="Microsoft.MergeJoin"
+              contactInfo="Merge Join;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Combine two sorted data flows into one using the FULL, LEFT, or INNER join. We recommend this transformation when data flows can be sorted at their sources."
+              name="Merge Join"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of join to perform."
+                  name="JoinType"
+                  typeConverter="JoinType">2</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the number of columns in the ordering key."
+                  name="NumKeyColumns">1</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the null values are treated as equal values."
+                  name="TreatNullsAsEqual">true</property>
+                <property
+                  dataType="System.Int32"
+                  description="Indicates the requested maximum buffers per input before blocking."
+                  name="MaxBuffersPerInput">5</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Loading to Fact\Merge Join.Inputs[Merge Join Left Input]"
+                  hasSideEffects="true"
+                  name="Merge Join Left Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Loading to Fact\Merge Join.Inputs[Merge Join Left Input].Columns[Date]"
+                      cachedDataType="dbDate"
+                      cachedName="Date"
+                      cachedSortKeyPosition="1"
+                      lineageId="Package\Loading to Fact\Sort.Outputs[Sort Output].Columns[Date]" />
+                    <inputColumn
+                      refId="Package\Loading to Fact\Merge Join.Inputs[Merge Join Left Input].Columns[Cust_id]"
+                      cachedDataType="i4"
+                      cachedName="Cust_id"
+                      lineageId="Package\Loading to Fact\Sort.Outputs[Sort Output].Columns[Cust_id]" />
+                    <inputColumn
+                      refId="Package\Loading to Fact\Merge Join.Inputs[Merge Join Left Input].Columns[Merchant_id]"
+                      cachedDataType="i4"
+                      cachedName="Merchant_id"
+                      lineageId="Package\Loading to Fact\Sort.Outputs[Sort Output].Columns[Merchant_id]" />
+                    <inputColumn
+                      refId="Package\Loading to Fact\Merge Join.Inputs[Merge Join Left Input].Columns[ADDR_id]"
+                      cachedDataType="i4"
+                      cachedName="ADDR_id"
+                      lineageId="Package\Loading to Fact\Sort.Outputs[Sort Output].Columns[ADDR_id]" />
+                    <inputColumn
+                      refId="Package\Loading to Fact\Merge Join.Inputs[Merge Join Left Input].Columns[Amount]"
+                      cachedDataType="numeric"
+                      cachedName="Amount"
+                      cachedPrecision="10"
+                      cachedScale="2"
+                      lineageId="Package\Loading to Fact\Sort.Outputs[Sort Output].Columns[Amount]" />
+                    <inputColumn
+                      refId="Package\Loading to Fact\Merge Join.Inputs[Merge Join Left Input].Columns[is_fraud]"
+                      cachedDataType="bool"
+                      cachedName="is_fraud"
+                      lineageId="Package\Loading to Fact\Sort.Outputs[Sort Output].Columns[is_fraud]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+                <input
+                  refId="Package\Loading to Fact\Merge Join.Inputs[Merge Join Right Input]"
+                  hasSideEffects="true"
+                  name="Merge Join Right Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Loading to Fact\Merge Join.Inputs[Merge Join Right Input].Columns[Date]"
+                      cachedDataType="dbDate"
+                      cachedName="Date"
+                      cachedSortKeyPosition="1"
+                      lineageId="Package\Loading to Fact\Sort 1.Outputs[Sort Output].Columns[Date]" />
+                    <inputColumn
+                      refId="Package\Loading to Fact\Merge Join.Inputs[Merge Join Right Input].Columns[DateKey]"
+                      cachedDataType="i4"
+                      cachedName="DateKey"
+                      lineageId="Package\Loading to Fact\Sort 1.Outputs[Sort Output].Columns[DateKey]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Loading to Fact\Merge Join.Outputs[Merge Join Output]"
+                  name="Merge Join Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Loading to Fact\Merge Join.Outputs[Merge Join Output].Columns[Cust_id]"
+                      dataType="i4"
+                      lineageId="Package\Loading to Fact\Merge Join.Outputs[Merge Join Output].Columns[Cust_id]"
+                      name="Cust_id">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Loading to Fact\Merge Join.Inputs[Merge Join Left Input].Columns[Cust_id]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Loading to Fact\Merge Join.Outputs[Merge Join Output].Columns[Merchant_id]"
+                      dataType="i4"
+                      lineageId="Package\Loading to Fact\Merge Join.Outputs[Merge Join Output].Columns[Merchant_id]"
+                      name="Merchant_id">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Loading to Fact\Merge Join.Inputs[Merge Join Left Input].Columns[Merchant_id]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Loading to Fact\Merge Join.Outputs[Merge Join Output].Columns[ADDR_id]"
+                      dataType="i4"
+                      lineageId="Package\Loading to Fact\Merge Join.Outputs[Merge Join Output].Columns[ADDR_id]"
+                      name="ADDR_id">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Loading to Fact\Merge Join.Inputs[Merge Join Left Input].Columns[ADDR_id]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Loading to Fact\Merge Join.Outputs[Merge Join Output].Columns[Amount]"
+                      dataType="numeric"
+                      lineageId="Package\Loading to Fact\Merge Join.Outputs[Merge Join Output].Columns[Amount]"
+                      name="Amount"
+                      precision="10"
+                      scale="2">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Loading to Fact\Merge Join.Inputs[Merge Join Left Input].Columns[Amount]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Loading to Fact\Merge Join.Outputs[Merge Join Output].Columns[is_fraud]"
+                      dataType="bool"
+                      lineageId="Package\Loading to Fact\Merge Join.Outputs[Merge Join Output].Columns[is_fraud]"
+                      name="is_fraud">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Loading to Fact\Merge Join.Inputs[Merge Join Left Input].Columns[is_fraud]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Loading to Fact\Merge Join.Outputs[Merge Join Output].Columns[Date_id]"
+                      dataType="i4"
+                      lineageId="Package\Loading to Fact\Merge Join.Outputs[Merge Join Output].Columns[Date_id]"
+                      name="Date_id">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="The input column associated with this output column"
+                          name="InputColumnID">#{Package\Loading to Fact\Merge Join.Inputs[Merge Join Right Input].Columns[DateKey]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Loading to Fact\Sort"
+              componentClassID="Microsoft.Sort"
+              contactInfo="Sort;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Sorts input data in ascending or descending order when it cannot be sorted at its source. For example, sort sales data by 'customer id' before it is written to a flat file and delivered to another department. Note: We do not recommend this transformation for large data flows."
+              name="Sort"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the Sort transformation removes rows with duplicate sort values."
+                  name="EliminateDuplicates">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the maximum number of threads to use for sorting."
+                  expressionType="Notify"
+                  name="MaximumThreads">-1</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Loading to Fact\Sort.Inputs[Sort Input]"
+                  name="Sort Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Loading to Fact\Sort.Inputs[Sort Input].Columns[Cust_id]"
+                      cachedDataType="i4"
+                      cachedName="Cust_id"
+                      lineageId="Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Output].Columns[Cust_id]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Loading to Fact\Sort.Inputs[Sort Input].Columns[Merchant_id]"
+                      cachedDataType="i4"
+                      cachedName="Merchant_id"
+                      lineageId="Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Output].Columns[Merchant_id]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Loading to Fact\Sort.Inputs[Sort Input].Columns[ADDR_id]"
+                      cachedDataType="i4"
+                      cachedName="ADDR_id"
+                      lineageId="Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Output].Columns[ADDR_id]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Loading to Fact\Sort.Inputs[Sort Input].Columns[Amount]"
+                      cachedDataType="numeric"
+                      cachedName="Amount"
+                      cachedPrecision="10"
+                      cachedScale="2"
+                      lineageId="Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Output].Columns[Amount]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Loading to Fact\Sort.Inputs[Sort Input].Columns[is_fraud]"
+                      cachedDataType="bool"
+                      cachedName="is_fraud"
+                      lineageId="Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Output].Columns[is_fraud]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Loading to Fact\Sort.Inputs[Sort Input].Columns[Date]"
+                      cachedDataType="dbDate"
+                      cachedName="Date"
+                      lineageId="Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Output].Columns[Date]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">1</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Loading to Fact\Sort.Outputs[Sort Output]"
+                  isSorted="true"
+                  name="Sort Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Loading to Fact\Sort.Outputs[Sort Output].Columns[Cust_id]"
+                      dataType="i4"
+                      lineageId="Package\Loading to Fact\Sort.Outputs[Sort Output].Columns[Cust_id]"
+                      name="Cust_id">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Output].Columns[Cust_id]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Loading to Fact\Sort.Outputs[Sort Output].Columns[Merchant_id]"
+                      dataType="i4"
+                      lineageId="Package\Loading to Fact\Sort.Outputs[Sort Output].Columns[Merchant_id]"
+                      name="Merchant_id">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Output].Columns[Merchant_id]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Loading to Fact\Sort.Outputs[Sort Output].Columns[ADDR_id]"
+                      dataType="i4"
+                      lineageId="Package\Loading to Fact\Sort.Outputs[Sort Output].Columns[ADDR_id]"
+                      name="ADDR_id">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Output].Columns[ADDR_id]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Loading to Fact\Sort.Outputs[Sort Output].Columns[Amount]"
+                      dataType="numeric"
+                      lineageId="Package\Loading to Fact\Sort.Outputs[Sort Output].Columns[Amount]"
+                      name="Amount"
+                      precision="10"
+                      scale="2">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Output].Columns[Amount]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Loading to Fact\Sort.Outputs[Sort Output].Columns[is_fraud]"
+                      dataType="bool"
+                      lineageId="Package\Loading to Fact\Sort.Outputs[Sort Output].Columns[is_fraud]"
+                      name="is_fraud">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Output].Columns[is_fraud]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Loading to Fact\Sort.Outputs[Sort Output].Columns[Date]"
+                      dataType="dbDate"
+                      lineageId="Package\Loading to Fact\Sort.Outputs[Sort Output].Columns[Date]"
+                      name="Date"
+                      sortKeyPosition="1">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Output].Columns[Date]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Loading to Fact\Sort 1"
+              componentClassID="Microsoft.Sort"
+              contactInfo="Sort;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Sorts input data in ascending or descending order when it cannot be sorted at its source. For example, sort sales data by 'customer id' before it is written to a flat file and delivered to another department. Note: We do not recommend this transformation for large data flows."
+              name="Sort 1"
+              version="1">
+              <properties>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the Sort transformation removes rows with duplicate sort values."
+                  name="EliminateDuplicates">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the maximum number of threads to use for sorting."
+                  expressionType="Notify"
+                  name="MaximumThreads">-1</property>
+              </properties>
+              <inputs>
+                <input
+                  refId="Package\Loading to Fact\Sort 1.Inputs[Sort Input]"
+                  name="Sort Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Loading to Fact\Sort 1.Inputs[Sort Input].Columns[DateKey]"
+                      cachedDataType="i4"
+                      cachedName="DateKey"
+                      lineageId="Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Output].Columns[DateKey]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Loading to Fact\Sort 1.Inputs[Sort Input].Columns[Date]"
+                      cachedDataType="dbDate"
+                      cachedName="Date"
+                      lineageId="Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Output].Columns[Date]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">1</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Loading to Fact\Sort 1.Inputs[Sort Input].Columns[Year]"
+                      cachedDataType="i4"
+                      cachedName="Year"
+                      lineageId="Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Output].Columns[Year]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Loading to Fact\Sort 1.Inputs[Sort Input].Columns[Week]"
+                      cachedDataType="i4"
+                      cachedName="Week"
+                      lineageId="Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Output].Columns[Week]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Loading to Fact\Sort 1.Inputs[Sort Input].Columns[Day]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="20"
+                      cachedName="Day"
+                      lineageId="Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Output].Columns[Day]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\Loading to Fact\Sort 1.Inputs[Sort Input].Columns[Month]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="20"
+                      cachedName="Month"
+                      lineageId="Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Output].Columns[Month]">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the comparison options for character data."
+                          name="NewComparisonFlags">0</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the sort order of the column."
+                          name="NewSortKeyPosition">0</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Loading to Fact\Sort 1.Outputs[Sort Output]"
+                  isSorted="true"
+                  name="Sort Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Loading to Fact\Sort 1.Outputs[Sort Output].Columns[DateKey]"
+                      dataType="i4"
+                      lineageId="Package\Loading to Fact\Sort 1.Outputs[Sort Output].Columns[DateKey]"
+                      name="DateKey">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Output].Columns[DateKey]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Loading to Fact\Sort 1.Outputs[Sort Output].Columns[Date]"
+                      dataType="dbDate"
+                      lineageId="Package\Loading to Fact\Sort 1.Outputs[Sort Output].Columns[Date]"
+                      name="Date"
+                      sortKeyPosition="1">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Output].Columns[Date]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Loading to Fact\Sort 1.Outputs[Sort Output].Columns[Year]"
+                      dataType="i4"
+                      lineageId="Package\Loading to Fact\Sort 1.Outputs[Sort Output].Columns[Year]"
+                      name="Year">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Output].Columns[Year]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Loading to Fact\Sort 1.Outputs[Sort Output].Columns[Week]"
+                      dataType="i4"
+                      lineageId="Package\Loading to Fact\Sort 1.Outputs[Sort Output].Columns[Week]"
+                      name="Week">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Output].Columns[Week]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Loading to Fact\Sort 1.Outputs[Sort Output].Columns[Day]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      lineageId="Package\Loading to Fact\Sort 1.Outputs[Sort Output].Columns[Day]"
+                      name="Day">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Output].Columns[Day]}</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Loading to Fact\Sort 1.Outputs[Sort Output].Columns[Month]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      lineageId="Package\Loading to Fact\Sort 1.Outputs[Sort Output].Columns[Month]"
+                      name="Month">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Specifies the lineage identifier of the input column that is associated with this output column."
+                          name="SortColumnId">#{Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Output].Columns[Month]}</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Loading to Fact.Paths[Merge Join Output]"
+              endId="Package\Loading to Fact\Load to Fact.Inputs[OLE DB Destination Input]"
+              name="Merge Join Output"
+              startId="Package\Loading to Fact\Merge Join.Outputs[Merge Join Output]" />
+            <path
+              refId="Package\Loading to Fact.Paths[OLE DB Source Output]"
+              endId="Package\Loading to Fact\Sort.Inputs[Sort Input]"
+              name="OLE DB Source Output"
+              startId="Package\Loading to Fact\Facts without Date_id.Outputs[OLE DB Source Output]" />
+            <path
+              refId="Package\Loading to Fact.Paths[OLE DB Source Output1]"
+              endId="Package\Loading to Fact\Sort 1.Inputs[Sort Input]"
+              name="OLE DB Source Output"
+              startId="Package\Loading to Fact\Date_id From DateDimension.Outputs[OLE DB Source Output]" />
+            <path
+              refId="Package\Loading to Fact.Paths[Sort Output]"
+              endId="Package\Loading to Fact\Merge Join.Inputs[Merge Join Left Input]"
+              name="Sort Output"
+              startId="Package\Loading to Fact\Sort.Outputs[Sort Output]" />
+            <path
+              refId="Package\Loading to Fact.Paths[Sort Output1]"
+              endId="Package\Loading to Fact\Merge Join.Inputs[Merge Join Right Input]"
+              name="Sort Output"
+              startId="Package\Loading to Fact\Sort 1.Outputs[Sort Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{E25CE4B2-6C74-4F40-8DA2-358CEF3F5DB8}"
+      DTS:From="Package\Delete From Fact"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Loading to Fact" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="158.4,41.6"
+          Id="Package\Delete From Fact"
+          TopLeft="205.499992052714,41.0333336157269" />
+        <NodeLayout
+          Size="149.6,41.6"
+          Id="Package\Loading to Fact"
+          TopLeft="204.309515909544,134.88095340918" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="281.904753981129,82.6333336157269">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,52.2476197934529"
+              Start="0,0"
+              End="0,44.7476197934529">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,44.7476197934529" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Loading to Fact">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="178.4,41.6"
+          Id="Package\Loading to Fact\Facts without Date_id"
+          TopLeft="140.976185092851,50.0714289256505" />
+        <NodeLayout
+          Size="215.2,41.6"
+          Id="Package\Loading to Fact\Date_id From DateDimension"
+          TopLeft="408.476174463356,49.4523813016831" />
+        <NodeLayout
+          Size="129.6,41.6"
+          Id="Package\Loading to Fact\Merge Join"
+          TopLeft="305.357130723341,201.190477789395" />
+        <NodeLayout
+          Size="97.6,41.6"
+          Id="Package\Loading to Fact\Sort"
+          TopLeft="203.119039766373,122.318182659459" />
+        <NodeLayout
+          Size="106.4,41.6"
+          Id="Package\Loading to Fact\Sort 1"
+          TopLeft="431.333317604331,118.889610965221" />
+        <EdgeLayout
+          Id="Package\Loading to Fact.Paths[OLE DB Source Output]"
+          TopLeft="230.176185092851,91.6714289256505">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="21.7428546735219,30.6467537338084"
+              Start="0,0"
+              End="21.7428546735219,23.1467537338084">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,11.3233768669042" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,11.3233768669042"
+                    Point2="0,15.3233768669042"
+                    Point3="4,15.3233768669042" />
+                  <mssgle:LineSegment
+                    End="17.7428546735219,15.3233768669042" />
+                  <mssgle:CubicBezierSegment
+                    Point1="17.7428546735219,15.3233768669042"
+                    Point2="21.7428546735219,15.3233768669042"
+                    Point3="21.7428546735219,19.3233768669042" />
+                  <mssgle:LineSegment
+                    End="21.7428546735219,23.1467537338084" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Loading to Fact.Paths[OLE DB Source Output1]"
+          TopLeft="516.076174463356,91.0523813016831">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-31.5428568590257,27.8372296635379"
+              Start="0,0"
+              End="-31.5428568590257,20.3372296635379">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,9.91861483176893" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,9.91861483176893"
+                    Point2="0,13.9186148317689"
+                    Point3="-4,13.9186148317689" />
+                  <mssgle:LineSegment
+                    End="-27.5428568590257,13.9186148317689" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-27.5428568590257,13.9186148317689"
+                    Point2="-31.5428568590257,13.9186148317689"
+                    Point3="-31.5428568590257,17.9186148317689" />
+                  <mssgle:LineSegment
+                    End="-31.5428568590257,20.3372296635379" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Loading to Fact.Paths[Sort Output]"
+          TopLeft="251.919039766373,163.918182659459">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="118.238090956968,37.2722951299357"
+              Start="0,0"
+              End="118.238090956968,29.7722951299357">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,14.6361475649678" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,14.6361475649678"
+                    Point2="0,18.6361475649678"
+                    Point3="4,18.6361475649678" />
+                  <mssgle:LineSegment
+                    End="114.238090956968,18.6361475649678" />
+                  <mssgle:CubicBezierSegment
+                    Point1="114.238090956968,18.6361475649678"
+                    Point2="118.238090956968,18.6361475649678"
+                    Point3="118.238090956968,22.6361475649678" />
+                  <mssgle:LineSegment
+                    End="118.238090956968,29.7722951299357" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Loading to Fact.Paths[Sort Output1]"
+          TopLeft="484.533317604331,160.489610965221">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-94.1095202143232,40.7008668241735"
+              Start="0,0"
+              End="-94.1095202143232,33.2008668241735">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.1227088738394" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.1227088738394"
+                    Point2="0,24.1227088738394"
+                    Point3="-4,24.1227088738394" />
+                  <mssgle:LineSegment
+                    End="-90.1095202143232,24.1227088738394" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-90.1095202143232,24.1227088738394"
+                    Point2="-94.1095202143232,24.1227088738394"
+                    Point3="-94.1095202143232,28.1227088738394" />
+                  <mssgle:LineSegment
+                    End="-94.1095202143232,33.2008668241735" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="136,41.6"
+          Id="Package\Loading to Fact\Load to Fact"
+          TopLeft="302.166656070286,279.785715673083" />
+        <EdgeLayout
+          Id="Package\Loading to Fact.Paths[Merge Join Output]"
+          TopLeft="370.161893396813,242.790477789395">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,36.9952378836888"
+              Start="0,0"
+              End="0,29.4952378836888">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,29.4952378836888" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Loading to Fact\Facts without Date_id">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Loading to Fact\Date_id From DateDimension">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Loading to Fact\Load to Fact">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
