@@ -30,9 +30,28 @@ The data structured in 3NF normalization in the OLTP database was used to design
 
 Reporting ideas for the dashboard include:
 - Analyzing customer behavior
+  
+  <img src="https://github.com/ehsanSh21/BankDWH/blob/master/Screenshots/Power%20Bi/cust1.png" alt="Database Diagram" width="900" height="300">
+  <img src="https://github.com/ehsanSh21/BankDWH/blob/master/Screenshots/Power%20Bi/cust2.png" alt="Database Diagram" width="900" height="420">
+
+
+  
 - Assessing merchant performance
+  
+  <img src="https://github.com/ehsanSh21/BankDWH/blob/master/Screenshots/Power%20Bi/Merch1.png" alt="Database Diagram" width="900" height="420">
+  <img src="https://github.com/ehsanSh21/BankDWH/blob/master/Screenshots/Power%20Bi/merch2.png" alt="Database Diagram" width="900" height="420">
+
+
+  
 - Exploring geographical patterns
+
+  <img src="https://github.com/ehsanSh21/BankDWH/blob/master/Screenshots/Power%20Bi/state1.png" alt="Database Diagram" width="900" height="420">
+  <img src="https://github.com/ehsanSh21/BankDWH/blob/master/Screenshots/Power%20Bi/State2.png" alt="Database Diagram" width="900" height="420">
+
+
+  
 - Examining temporal trends
+  <img src="https://github.com/ehsanSh21/BankDWH/blob/master/Screenshots/Power%20Bi/monthly.png" alt="Database Diagram" width="900" height="420">
 
 These reporting ideas provide a comprehensive view of the dataset, enabling actionable insights for decision-making.
 
