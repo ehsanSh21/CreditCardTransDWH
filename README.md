@@ -1,4 +1,4 @@
-# OLTP, OLAP Database Modelling on a Kaggle Dataset
+# Credit Card Transactions Data Modelling
 
 This project focuses on fraud detection using a dataset downloaded from Kaggle ([Fraud Detection Dataset](https://www.kaggle.com/kartik2112/fraud-detection)). The dataset consists of 23 columns and 550,000 rows of transaction data. The project involves designing data models for both OLTP (Online Transaction Processing) and OLAP (Online Analytical Processing) databases, loading the dataset into SQL Server, performing analysis in Power BI, and creating dashboards to visualize insights.
 
@@ -12,11 +12,19 @@ In this part, the dataset was loaded into SQL Server, and tables were designed b
 
 #### ER Diagram
 
-<img src="https://github.com/ehsanSh21/BankDWH/blob/master/Screenshots/Data%20Modeling/OLTP/oltp.png" alt="Database Diagram" width="900" height="300">
+<img src="https://github.com/ehsanSh21/BankDWH/blob/master/Screenshots/Data%20Modeling/OLTP/ERD.png" alt="Database Diagram" width="900" height="400">
 
 ## Part 2: Design OLAP Database
 
 The data structured in 3NF normalization in the OLTP database was used to design the data warehouse using SSIS and SQL. Data was loaded from the OLTP source to the data warehouse and stored in a star schema.
+
+#### Star Schema
+
+<img src="https://github.com/ehsanSh21/BankDWH/blob/master/Screenshots/Data%20Modeling/OLAP/OLAP.png" alt="Database Diagram" width="900" height="500">
+
+#### Data Flow for Loading Src Data to Fact Table 
+
+<img src="https://github.com/ehsanSh21/BankDWH/blob/master/Screenshots/Data%20Modeling/OLAP/Fact_data_flow.png" alt="Database Diagram" width="900" height="300">
 
 ## Part 3: Creating Dashboard with Power BI
 
